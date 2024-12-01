@@ -1,0 +1,95 @@
+name: Build MikTeX images
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  MikTeX:
+    name: Build MikTeX base-image
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: 🖉 Variables
+        id: variables
+        run: |
+          base_image_name="python"
+          base_image_py_version="3.13"
+          base_image_os_version="bookworm"
+
+          image_name="miktex"
+          image_tag="latest"
+
+          echo "base_image_name=${base_image_name}" >> $GITHUB_OUTPUT
+          echo "base_image_py_version=${base_image_py_version}" >> $GITHUB_OUTPUT
+          echo "base_image_os_version=${base_image_os_version}" >> $GITHUB_OUTPUT
+          echo "base_image=${base_image_name}:${base_image_py_version}-slim-${base_image_os_version}" >> $GITHUB_OUTPUT
+          
+          echo "miktex_image_ns=${{ vars.DOCKERHUB_NAMESPACE }}" >> $GITHUB_OUTPUT
+          echo "miktex_image_name=${image_name}" >> $GITHUB_OUTPUT
+          echo "miktex_image_tag=${image_tag}" >> $GITHUB_OUTPUT
+          echo "miktex_image=${{ vars.DOCKERHUB_NAMESPACE }}/${image_name}:${image_tag}" >> $GITHUB_OUTPUT
+          
+          cat $GITHUB_OUTPUT
+
+      - name: ⏬ Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # The command 'git describe' (used for version) needs the history.
+          fetch-depth: 0
+
+      - name: 🐋 Building MikTeX image
+        id: build
+        run: |
+          ANSI_RED="\e[31m"
+          ANSI_GREEN="\e[32m"
+          ANSI_YELLOW="\e[33m"
+          ANSI_BLUE="\e[34m"
+          ANSI_CYAN="\e[36m"
+          ANSI_DARK_GRAY="\e[90m"
+          ANSI_NOCOLOR="\e[0m"
+          
+          RemoveComments() {
+            local OutputFile="${2:-$1}"
+        
+            echo -e "Removing comments from '$1' and writing to '${OutputFile}'."
+            grep -v '^\s*$\|^\s*\#' "$1" > "${OutputFile}"
+        
+            echo -e "${ANSI_BLUE}${OutputFile}${ANSI_NOCOLOR}"
+            echo -e "${ANSI_BLUE}--------------------------------------------------------------------------------${ANSI_NOCOLOR}"
+            while IFS='' read -r line; do
+              echo -e "  ${ANSI_CYAN}$line${ANSI_NOCOLOR}"
+            done < "${OutputFile}"
+            echo -e "${ANSI_BLUE}--------------------------------------------------------------------------------${ANSI_NOCOLOR}"
+          }
+
+          DockerImageSizeUncompressed() {
+            docker image inspect $1 --format='{{.Size}}' | numfmt --to=iec --format '%.2f'
+          }
+
+          echo "Convert 'Common.list' to 'Packages.list' ..."
+          RemoveComments Common.list Packages.list
+
+          echo "Building docker file 'Dockerfile' ..."
+          docker buildx build \
+            --file Dockerfile \
+            --build-arg IMAGE=${{ steps.variables.outputs.base_image }} \
+            --build-arg OS_VERSION=${{ steps.variables.outputs.base_image_os_version }} \
+            --build-arg PY_VERSION=${{ steps.variables.outputs.base_image_py_version }} \
+            --tag "${{ steps.variables.outputs.miktex_image }}" \
+            . 2>&1 \
+          | ./Docker.buildx.sh
+
+          echo "Docker image '${{ steps.variables.outputs.miktex_image }}' has $(DockerImageSizeUncompressed ${{ steps.variables.outputs.miktex_image }})"
+
+      - name: ☑ Checking MikTeX image '${{ steps.variables.outputs.miktex_image }}'
+        run: |
+          echo "Docker image '${{ steps.variables.outputs.miktex_image }}' has $(DockerImageSizeUncompressed ${{ steps.variables.outputs.miktex_image }})"
+
+      - name: 🔑 Login and push '${{ steps.variables.outputs.miktex_image }}' to Docker Hub
+        run: |
+          echo "Login at Docker Hub ..."
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ vars.DOCKERHUB_USERNAME }} --password-stdin
+        
+          echo "Docker image '${{ steps.variables.outputs.miktex_image }}' has $(DockerImageSizeUncompressed ${{ steps.variables.outputs.miktex_image }})"
+          docker image push ${{ steps.variables.outputs.miktex_image }}
