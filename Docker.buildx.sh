@@ -31,23 +31,23 @@ RootDir="$($READLINK -f $ScriptDir/..)"
 
 ANSI_ENABLE_COLOR() {
 	ENABLECOLOR='-c '
-	ANSI_BLACK="\e[30m"
-	ANSI_RED="\e[31m"
-	ANSI_GREEN="\e[32m"
-	ANSI_YELLOW="\e[33m"
-	ANSI_BLUE="\e[34m"
-	ANSI_MAGENTA="\e[35m"
-	ANSI_CYAN="\e[36m"
-	ANSI_DARK_GRAY="\e[90m"
-	ANSI_LIGHT_GRAY="\e[37m"
-	ANSI_LIGHT_RED="\e[91m"
-	ANSI_LIGHT_GREEN="\e[92m"
-	ANSI_LIGHT_YELLOW="\e[93m"
-	ANSI_LIGHT_BLUE="\e[94m"
-	ANSI_LIGHT_MAGENTA="\e[95m"
-	ANSI_LIGHT_CYAN="\e[96m"
-	ANSI_WHITE="\e[97m"
-	ANSI_NOCOLOR="\e[0m"
+	ANSI_BLACK="\x1b[30m"
+	ANSI_RED="\x1b[31m"
+	ANSI_GREEN="\x1b[32m"
+	ANSI_YELLOW="\x1b[33m"
+	ANSI_BLUE="\x1b[34m"
+	ANSI_MAGENTA="\x1b[35m"
+	ANSI_CYAN="\x1b[36m"
+	ANSI_DARK_GRAY="\x1b[90m"
+	ANSI_LIGHT_GRAY="\x1b[37m"
+	ANSI_LIGHT_RED="\x1b[91m"
+	ANSI_LIGHT_GREEN="\x1b[92m"
+	ANSI_LIGHT_YELLOW="\x1b[93m"
+	ANSI_LIGHT_BLUE="\x1b[94m"
+	ANSI_LIGHT_MAGENTA="\x1b[95m"
+	ANSI_LIGHT_CYAN="\x1b[96m"
+	ANSI_WHITE="\x1b[97m"
+	ANSI_NOCOLOR="\x1b[0m"
 
 	# red texts
 	COLORED_ERROR="${ANSI_RED}[ERROR]"
@@ -93,21 +93,21 @@ while [[ $# > 0 ]]; do
 done
 
 if [ $COMMAND -le 1 ]; then
-	echo ""
-	echo "Synopsis:"
-	echo "  Script to filter Docker 'buildx' outputs."
-	echo ""
-	echo "Usage:"
-	echo "  Docker.buildx.sh [-v][-d] [--help] [--indent <pattern>]"
-	echo ""
-	echo "Common commands:"
-	echo "  -h --help             Print this help page."
-	echo ""
-	echo "Common options:"
-#	echo "  -v --verbose          Print verbose messages."
-#	echo "  -d --debug            Print debug messages."
-	echo "  -i --indent <pattern> Indent all lines by this pattern."
-	echo ""
+	printf "%s\n" ""
+	printf "%s\n" "Synopsis:"
+	printf "%s\n" "  Script to filter Docker 'buildx' outputs."
+	printf "%s\n" ""
+	printf "%s\n" "Usage:"
+	printf "%s\n" "  Docker.buildx.sh [-v][-d] [--help] [--indent <pattern>]"
+	printf "%s\n" ""
+	printf "%s\n" "Common commands:"
+	printf "%s\n" "  -h --help             Print this help page."
+	printf "%s\n" ""
+	printf "%s\n" "Common options:"
+#	printf "%s\n" "  -v --verbose          Print verbose messages."
+#	printf "%s\n" "  -d --debug            Print debug messages."
+	printf "%s\n" "  -i --indent <pattern> Indent all lines by this pattern."
+	printf "%s\n" ""
 	exit $COMMAND
 fi
 
@@ -124,36 +124,37 @@ Pattern_ERROR='(#[0-9]+ )?ERROR:'
 Pattern_CANCELED='#[0-9]+ CANCELED'
 Pattern_Tagging='#[0-9]+ naming to (.*?) done'
 Pattern_MIKTEX='#[0-9]+ [0-9]+\.[0-9]+ Installing package'
+
 while IFS='\n' read -r line; do
 	if [[ "${line}" =~ $Pattern_FROM ]]; then
-		echo -e "${INDENT}${ANSI_MAGENTA}${line}${ANSI_NOCOLOR}"
+		printf "%s\n" "${INDENT}${ANSI_MAGENTA}${line}${ANSI_NOCOLOR}"
 	elif [[ "${line}" =~ $Pattern_RUN ]]; then
-		echo -e "${INDENT}${ANSI_CYAN}${line}${ANSI_NOCOLOR}"
+		printf "%s\n" "${INDENT}${ANSI_CYAN}${line}${ANSI_NOCOLOR}"
 	elif [[ "${line}" =~ $Pattern_COPY ]]; then
-		echo -e "${INDENT}${ANSI_LIGHT_CYAN}${line}${ANSI_NOCOLOR}"
+		printf "%s\n" "${INDENT}${ANSI_LIGHT_CYAN}${line}${ANSI_NOCOLOR}"
 	elif [[ "${line}" =~ $Pattern_LABEL_ENV ]]; then
-		echo -e "${INDENT}${ANSI_BLUE}${line}${ANSI_NOCOLOR}"
+		printf "%s\n" "${INDENT}${ANSI_BLUE}${line}${ANSI_NOCOLOR}"
 	elif [[ "${line}" =~ $Pattern_DONE ]]; then
-		echo -e "${INDENT}${ANSI_GREEN}${line}${ANSI_NOCOLOR}"
+		printf "%s\n" "${INDENT}${ANSI_GREEN}${line}${ANSI_NOCOLOR}"
 	elif [[ "${line}" =~ $Pattern_ERROR ]]; then
-		echo -e "${INDENT}${ANSI_LIGHT_RED}${line}${ANSI_NOCOLOR}"
+		printf "%s\n" "${INDENT}${ANSI_LIGHT_RED}${line}${ANSI_NOCOLOR}"
 	elif [[ "${line}" =~ $Pattern_CANCELED ]]; then
-		echo -e "${INDENT}${ANSI_LIGHT_RED}${line}${ANSI_NOCOLOR}"
+		printf "%s\n" "${INDENT}${ANSI_LIGHT_RED}${line}${ANSI_NOCOLOR}"
 	elif [[ "${line}" =~ $Pattern_CACHED ]]; then
-		echo -e "${INDENT}${ANSI_YELLOW}${line}${ANSI_NOCOLOR}"
+		printf "%s\n" "${INDENT}${ANSI_YELLOW}${line}${ANSI_NOCOLOR}"
 	elif [[ "${line}" =~ $Pattern_Tagging ]]; then
 		ImageName=${BASH_REMATCH[1]}
-		echo -e "${INDENT}${ANSI_LIGHT_GREEN}${line}${ANSI_NOCOLOR}"
+		printf "%s\n" "${INDENT}${ANSI_LIGHT_GREEN}${line}${ANSI_NOCOLOR}"
 	elif [[ "${line}" =~ $Pattern_MIKTEX ]]; then
-		echo -e "${INDENT}${ANSI_LIGHT_BLUE}${line}${ANSI_NOCOLOR}"
+		printf "%s\n" "${INDENT}${ANSI_LIGHT_BLUE}${line}${ANSI_NOCOLOR}"
 	else
-		echo -e "${INDENT}${ANSI_LIGHT_GRAY}${line}${ANSI_NOCOLOR}"
+		printf "%s\n" "${INDENT}${ANSI_LIGHT_GRAY}${line}${ANSI_NOCOLOR}"
 	fi
 done < "/dev/stdin"
 
 if [[ -n "${ImageName}" ]]; then
-	echo ""
-	echo "Image size of '${ImageName}' is $(docker image inspect ${ImageName} --format='{{.Size}}' | numfmt --to=iec)"
+	printf "%s\n" ""
+	printf "%s\n" "Image size of '${ImageName}' is $(docker image inspect ${ImageName} --format='{{.Size}}' | numfmt --to=iec)"
 fi
 
 exit $Counter_Error
