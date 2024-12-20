@@ -27,3 +27,18 @@ Installed additional tools are:
 * MikTeX original containers aren't smaller (less download time).
 * pyTooling has control over preinstalled commonly used LaTeX packages (`amsfonts`/`amsmath`, `babel`, `hyperref`, `longtables`, ...)
 * pyTooling can derive specific images for e.g. [Sphinx](Sphinx.list).
+
+## Derived Variants
+
+### Sphinx
+
+Common package list: [Common.list](Common.list)  
+Sphinx specific package list: [Sphinx.list](Sphinx.list)
+
+### Doxygen
+
+**planned**
+
+### Pandoc
+
+**planned**
