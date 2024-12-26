@@ -1,0 +1,45 @@
+# arabi -> handled in Common.list
+# auxhook -> handled in Common.list
+# bigintcalc -> handled in Common.list
+# bitset -> handled in Common.list
+capt-of
+cmap
+# ec -> handled in Common.list
+# epstopdf-pkg -> handled in Common.list
+# etexcmds -> handled in Common.list
+fancyhdr
+fancyvrb
+fncychap
+framed
+# gettitlestring -> handled in Common.list
+# graphics-cfg -> handled in Common.list
+# graphics-def -> handled in Common.list
+gsftopk
+# hycolor -> handled in Common.list
+# iftex -> handled in Common.list
+# infwarerr -> handled in Common.list
+# intcalc -> handled in Common.list
+# kvdefinekeys -> handled in Common.list
+# kvsetkeys -> handled in Common.list
+# l3backend -> handled in Common.list
+# latex-tools -> handled in Common.list
+# letltxmacro -> handled in Common.list
+# ltxcmds -> handled in Common.list
+mmap
+modes
+# mptopdf -> handled in Common.list
+needspace
+# oberdiek -> handled in Common.list
+# pdfescape -> handled in Common.list
+# pdftexcmds -> handled in Common.list
+# refcount -> handled in Common.list
+# rerunfilecheck -> handled in Common.list
+tabulary
+tex-gyre
+titlesec
+txfonts
+# uniquecounter -> handled in Common.list
+upquote
+varwidth
+# wrapfig -> handled in Common.list
+zhmetrics

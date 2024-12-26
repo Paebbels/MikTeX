@@ -1,0 +1,121 @@
+acronym
+amsfonts
+amsmath
+# amssymb -> part of amsfonts
+appendix
+arabi
+# array -> part of base installation
+auxhook
+babel
+babel-english
+babel-german
+bbm
+biber-linux-x86_64
+bigfoot
+bigintcalc
+bitset
+blindtext
+bookmark
+booktabs
+breakurl
+bytefield
+cabin
+# calc -> part of base installation
+caption
+cleveref
+colortbl
+courier
+datetime
+datetime2
+draftwatermark
+ec
+enumitem
+epstopdf-pkg
+eso-pic
+etexcmds
+etoolbox
+eurosym
+float
+fmtcount
+# fontenc -> part of base installation
+footmisc
+# footnote -> part of base installation
+fourier
+geometry
+gettitlestring
+glossaries
+graphics
+graphics-cfg
+graphics-def
+# graphicx -> part of base installation
+grfext
+hycolor
+hyperref
+iftex
+# ifthen -> part of base installation
+infwarerr
+# inputenc -> part of base installation
+intcalc
+koma-script
+kvdefinekeys
+kvoptions
+kvsetkeys
+l3backend
+l3packages
+lastpage
+latexmk
+latex-graphics-dev
+latex-tools
+letltxmacro
+listliketab
+listings
+listofitems
+lm
+# longtable -> part of base installation
+ltxcmds
+makecell
+marvosym
+mdwtools
+mptopdf
+# multicol -> part of base installation
+multirow
+oberdiek
+parskip
+pdfescape
+pdflscape
+pdfpages
+pdftexcmds
+pgf
+placeins
+psnfss
+refcount
+rerunfilecheck
+# rotating -> part of base installation
+# scrlayer-scrpage -> part of base installation
+scrlayer-fancyhdr
+setspace
+#silence -> part of base installation
+siunitx
+soul
+stackengine
+# subcaption -> part of base installation
+tabstackengine
+# tabularx -> part of base installation
+tcolorbox
+# textcomp -> part of base installation
+# tgheros -> part of base installation
+# tikz -> part of base installation
+tocbibind
+todonotes
+translations
+uniquecounter
+url
+# varioref -> part of base installation
+vhistory
+wasy
+wasysym
+wrapfig
+xcolor
+xkeyval
+# xspace -> part of base installation
+xstring

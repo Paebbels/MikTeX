@@ -1,0 +1,9 @@
+# GitHub files
+/.github/
+
+# Repository files
+/README.md
+
+# Docker files
+/Dockerfile
+/Docker.*.sh

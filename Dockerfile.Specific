@@ -1,0 +1,17 @@
+ARG IMAGE
+ARG BASE_VARIANT
+ARG VARIANT
+
+FROM ${IMAGE}
+ARG BASE_VARIANT
+ARG VARIANT
+
+# Meta information
+LABEL maintainer="Patrick Lehmann <Paebbels@gmail.com>"
+LABEL version="0.1"
+LABEL description="MikTeX with preinstalled packages for ${VARIANT} based on ${BASE_VARIANT}."
+
+RUN --mount=type=bind,target=/context \
+     miktex --admin --verbose packages update-package-database \
+  && (miktex --admin --verbose packages install --package-id-file /context/Packages.list || (cat /var/log/miktex/mpmcli_admin.log && exit 1)) \
+  && initexmf --admin --update-fndb
