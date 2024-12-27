@@ -2,6 +2,8 @@
 
 This repository is based on [Debian 12.x Bookworm (slim) with Python 3.13](https://hub.docker.com/_/python).
 
+Docker Hub: https://hub.docker.com/r/pytooling/miktex
+
 ## Usage
 
 ```bash

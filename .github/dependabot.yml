@@ -11,7 +11,7 @@ updates:
     reviewers:
       - Paebbels
     schedule:
-      interval: "daily"    # Checks on Monday trough Friday.
+      interval: "weekly"
 
   # Maintain GitHub Action runners
   - package-ecosystem: "github-actions"
@@ -21,11 +21,7 @@ updates:
       prefix: "[Dependabot]"
     labels:
       - Dependencies
-    assignees:
-      - Paebbels
-      - umarcor
     reviewers:
       - Paebbels
-      - umarcor
     schedule:
-      interval: "daily"    # Checks on Monday trough Friday.
+      interval: "weekly"

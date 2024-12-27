@@ -125,17 +125,24 @@ Pattern_CANCELED='#[0-9]+ CANCELED'
 Pattern_Tagging='#[0-9]+ naming to (.*?) done'
 Pattern_MIKTEX='#[0-9]+ [0-9]+\.[0-9]+ Installing package'
 
+group=0
 while IFS='\n' read -r line; do
 	if [[ "${line}" =~ $Pattern_FROM ]]; then
-		printf "%s\n" "${INDENT}${ANSI_MAGENTA}${line}${ANSI_NOCOLOR}"
+		printf "::group::%s\n" "${INDENT}${ANSI_MAGENTA}${line}${ANSI_NOCOLOR}"
+		group=1
 	elif [[ "${line}" =~ $Pattern_RUN ]]; then
-		printf "%s\n" "${INDENT}${ANSI_CYAN}${line}${ANSI_NOCOLOR}"
+		printf "::group::%s\n" "${INDENT}${ANSI_CYAN}${line}${ANSI_NOCOLOR}"
+		group=1
 	elif [[ "${line}" =~ $Pattern_COPY ]]; then
 		printf "%s\n" "${INDENT}${ANSI_LIGHT_CYAN}${line}${ANSI_NOCOLOR}"
 	elif [[ "${line}" =~ $Pattern_LABEL_ENV ]]; then
 		printf "%s\n" "${INDENT}${ANSI_BLUE}${line}${ANSI_NOCOLOR}"
 	elif [[ "${line}" =~ $Pattern_DONE ]]; then
+	  if [[ $group -eq 1 ]]; then
+	    printf "::endgroup::\n"
+	  fi
 		printf "%s\n" "${INDENT}${ANSI_GREEN}${line}${ANSI_NOCOLOR}"
+		group=0
 	elif [[ "${line}" =~ $Pattern_ERROR ]]; then
 		printf "%s\n" "${INDENT}${ANSI_LIGHT_RED}${line}${ANSI_NOCOLOR}"
 	elif [[ "${line}" =~ $Pattern_CANCELED ]]; then
